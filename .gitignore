@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+*.so
+*.o
+build/
+dist/
+*.egg-info/
+.pytest_cache/
+.venv/
+.env
+.env*
+kaggle/out/
+kaggle/build/
+.DS_Store
