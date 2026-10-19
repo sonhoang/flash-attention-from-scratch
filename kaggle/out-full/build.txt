@@ -1,0 +1,101 @@
+[1/6] c++ -MMD -MF ext.o.d -DTORCH_EXTENSION_NAME=attnkernels_ext -DTORCH_API_INCLUDE_EXTENSION_H -I/kaggle/temp/fa-scratch/attnkernels/csrc -isystem /usr/local/lib/python3.13/dist-packages/torch/include -isystem /usr/local/lib/python3.13/dist-packages/torch/include/torch/csrc/api/include -isystem /usr/local/cuda/include -isystem /usr/include/python3.13 -fPIC -std=c++17 -O3 -c /kaggle/temp/fa-scratch/attnkernels/csrc/ext.cpp -o ext.o 
+[2/6] /usr/local/cuda/bin/nvcc -MD -MF naive_attn.cuda.o.d -DTORCH_EXTENSION_NAME=attnkernels_ext -DTORCH_API_INCLUDE_EXTENSION_H -I/kaggle/temp/fa-scratch/attnkernels/csrc -isystem /usr/local/lib/python3.13/dist-packages/torch/include -isystem /usr/local/lib/python3.13/dist-packages/torch/include/torch/csrc/api/include -isystem /usr/local/cuda/include -isystem /usr/include/python3.13 -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr -gencode=arch=compute_75,code=sm_75 --compiler-options '-fPIC' -O3 -lineinfo --use_fast_math -Xptxas=-v -std=c++17 -c /kaggle/temp/fa-scratch/attnkernels/csrc/naive_attn.cu -o naive_attn.cuda.o 
+ptxas info    : 11 bytes gmem, 88 bytes cmem[4]
+ptxas info    : Compiling entry function '_ZN4attn9pv_kernelEPKfPK6__halfPS2_iib' for 'sm_75'
+ptxas info    : Function properties for _ZN4attn9pv_kernelEPKfPK6__halfPS2_iib
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 57 registers, used 0 barriers, 385 bytes cmem[0]
+ptxas info    : Compile time = 151.693 ms
+ptxas info    : Compiling entry function '_ZN4attn19softmax_rows_kernelEPfi' for 'sm_75'
+ptxas info    : Function properties for _ZN4attn19softmax_rows_kernelEPfi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 15 registers, used 1 barriers, 128 bytes smem, 364 bytes cmem[0]
+ptxas info    : Compile time = 23.254 ms
+ptxas info    : Compiling entry function '_ZN4attn13scores_kernelEPK6__halfS2_Pfiifb' for 'sm_75'
+ptxas info    : Function properties for _ZN4attn13scores_kernelEPK6__halfS2_Pfiifb
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 53 registers, used 0 barriers, 389 bytes cmem[0]
+ptxas info    : Compile time = 17.405 ms
+[3/6] /usr/local/cuda/bin/nvcc -MD -MF flash_simt.cuda.o.d -DTORCH_EXTENSION_NAME=attnkernels_ext -DTORCH_API_INCLUDE_EXTENSION_H -I/kaggle/temp/fa-scratch/attnkernels/csrc -isystem /usr/local/lib/python3.13/dist-packages/torch/include -isystem /usr/local/lib/python3.13/dist-packages/torch/include/torch/csrc/api/include -isystem /usr/local/cuda/include -isystem /usr/include/python3.13 -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr -gencode=arch=compute_75,code=sm_75 --compiler-options '-fPIC' -O3 -lineinfo --use_fast_math -Xptxas=-v -std=c++17 -c /kaggle/temp/fa-scratch/attnkernels/csrc/flash_simt.cu -o flash_simt.cuda.o 
+ptxas info    : 11 bytes gmem, 88 bytes cmem[4]
+ptxas info    : Compiling entry function '_ZN4attn17flash_simt_kernelILi128ELi32EEEvPK6__halfS3_S3_PS1_ifb' for 'sm_75'
+ptxas info    : Function properties for _ZN4attn17flash_simt_kernelILi128ELi32EEEvPK6__halfS3_S3_PS1_ifb
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 79 registers, used 1 barriers, 393 bytes cmem[0]
+ptxas info    : Compile time = 126.610 ms
+ptxas info    : Compiling entry function '_ZN4attn17flash_simt_kernelILi64ELi64EEEvPK6__halfS3_S3_PS1_ifb' for 'sm_75'
+ptxas info    : Function properties for _ZN4attn17flash_simt_kernelILi64ELi64EEEvPK6__halfS3_S3_PS1_ifb
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 74 registers, used 1 barriers, 393 bytes cmem[0]
+ptxas info    : Compile time = 123.140 ms
+[4/6] /usr/local/cuda/bin/nvcc -MD -MF flash_wmma.cuda.o.d -DTORCH_EXTENSION_NAME=attnkernels_ext -DTORCH_API_INCLUDE_EXTENSION_H -I/kaggle/temp/fa-scratch/attnkernels/csrc -isystem /usr/local/lib/python3.13/dist-packages/torch/include -isystem /usr/local/lib/python3.13/dist-packages/torch/include/torch/csrc/api/include -isystem /usr/local/cuda/include -isystem /usr/include/python3.13 -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr -gencode=arch=compute_75,code=sm_75 --compiler-options '-fPIC' -O3 -lineinfo --use_fast_math -Xptxas=-v -std=c++17 -c /kaggle/temp/fa-scratch/attnkernels/csrc/flash_wmma.cu -o flash_wmma.cuda.o 
+ptxas info    : 11 bytes gmem, 88 bytes cmem[4]
+ptxas info    : Compiling entry function '_ZN4attn17flash_wmma_kernelILi128ELi64EEEvPK6__halfS3_S3_PS1_ifb' for 'sm_75'
+ptxas info    : Function properties for _ZN4attn17flash_wmma_kernelILi128ELi64EEEvPK6__halfS3_S3_PS1_ifb
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 186 registers, used 1 barriers, 393 bytes cmem[0]
+ptxas info    : Compile time = 456.149 ms
+ptxas info    : Compiling entry function '_ZN4attn17flash_wmma_kernelILi128ELi32EEEvPK6__halfS3_S3_PS1_ifb' for 'sm_75'
+ptxas info    : Function properties for _ZN4attn17flash_wmma_kernelILi128ELi32EEEvPK6__halfS3_S3_PS1_ifb
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 178 registers, used 1 barriers, 393 bytes cmem[0]
+ptxas info    : Compile time = 514.598 ms
+ptxas info    : Compiling entry function '_ZN4attn17flash_wmma_kernelILi64ELi64EEEvPK6__halfS3_S3_PS1_ifb' for 'sm_75'
+ptxas info    : Function properties for _ZN4attn17flash_wmma_kernelILi64ELi64EEEvPK6__halfS3_S3_PS1_ifb
+    8 bytes stack frame, 8 bytes spill stores, 12 bytes spill loads
+ptxas info    : Used 128 registers, used 1 barriers, 8 bytes cumulative stack size, 393 bytes cmem[0]
+ptxas info    : Compile time = 343.645 ms
+ptxas info    : Compiling entry function '_ZN4attn17flash_wmma_kernelILi64ELi32EEEvPK6__halfS3_S3_PS1_ifb' for 'sm_75'
+ptxas info    : Function properties for _ZN4attn17flash_wmma_kernelILi64ELi32EEEvPK6__halfS3_S3_PS1_ifb
+    8 bytes stack frame, 8 bytes spill stores, 16 bytes spill loads
+ptxas info    : Used 96 registers, used 1 barriers, 8 bytes cumulative stack size, 393 bytes cmem[0]
+ptxas info    : Compile time = 335.261 ms
+[5/6] /usr/local/cuda/bin/nvcc -MD -MF paged_decode.cuda.o.d -DTORCH_EXTENSION_NAME=attnkernels_ext -DTORCH_API_INCLUDE_EXTENSION_H -I/kaggle/temp/fa-scratch/attnkernels/csrc -isystem /usr/local/lib/python3.13/dist-packages/torch/include -isystem /usr/local/lib/python3.13/dist-packages/torch/include/torch/csrc/api/include -isystem /usr/local/cuda/include -isystem /usr/include/python3.13 -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr -gencode=arch=compute_75,code=sm_75 --compiler-options '-fPIC' -O3 -lineinfo --use_fast_math -Xptxas=-v -std=c++17 -c /kaggle/temp/fa-scratch/attnkernels/csrc/paged_decode.cu -o paged_decode.cuda.o 
+ptxas info    : 11 bytes gmem, 88 bytes cmem[4]
+ptxas info    : Compiling entry function '_ZN4attn19paged_decode_kernelILi128ELi8EEEvPK6__halfS3_S3_PKiS5_PS1_PfS7_S7_iiiiif' for 'sm_75'
+ptxas info    : Function properties for _ZN4attn19paged_decode_kernelILi128ELi8EEEvPK6__halfS3_S3_PKiS5_PS1_PfS7_S7_iiiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 113 registers, used 1 barriers, 20576 bytes smem, 448 bytes cmem[0]
+ptxas info    : Compile time = 141.172 ms
+ptxas info    : Compiling entry function '_ZN4attn19paged_decode_kernelILi128ELi4EEEvPK6__halfS3_S3_PKiS5_PS1_PfS7_S7_iiiiif' for 'sm_75'
+ptxas info    : Function properties for _ZN4attn19paged_decode_kernelILi128ELi4EEEvPK6__halfS3_S3_PKiS5_PS1_PfS7_S7_iiiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 80 registers, used 1 barriers, 10288 bytes smem, 448 bytes cmem[0]
+ptxas info    : Compile time = 91.649 ms
+ptxas info    : Compiling entry function '_ZN4attn19paged_decode_kernelILi128ELi2EEEvPK6__halfS3_S3_PKiS5_PS1_PfS7_S7_iiiiif' for 'sm_75'
+ptxas info    : Function properties for _ZN4attn19paged_decode_kernelILi128ELi2EEEvPK6__halfS3_S3_PKiS5_PS1_PfS7_S7_iiiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 64 registers, used 1 barriers, 5144 bytes smem, 448 bytes cmem[0]
+ptxas info    : Compile time = 87.527 ms
+ptxas info    : Compiling entry function '_ZN4attn19paged_decode_kernelILi128ELi1EEEvPK6__halfS3_S3_PKiS5_PS1_PfS7_S7_iiiiif' for 'sm_75'
+ptxas info    : Function properties for _ZN4attn19paged_decode_kernelILi128ELi1EEEvPK6__halfS3_S3_PKiS5_PS1_PfS7_S7_iiiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 62 registers, used 1 barriers, 2572 bytes smem, 448 bytes cmem[0]
+ptxas info    : Compile time = 75.680 ms
+ptxas info    : Compiling entry function '_ZN4attn19paged_decode_kernelILi64ELi8EEEvPK6__halfS3_S3_PKiS5_PS1_PfS7_S7_iiiiif' for 'sm_75'
+ptxas info    : Function properties for _ZN4attn19paged_decode_kernelILi64ELi8EEEvPK6__halfS3_S3_PKiS5_PS1_PfS7_S7_iiiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 96 registers, used 1 barriers, 10336 bytes smem, 448 bytes cmem[0]
+ptxas info    : Compile time = 180.024 ms
+ptxas info    : Compiling entry function '_ZN4attn19paged_decode_kernelILi64ELi4EEEvPK6__halfS3_S3_PKiS5_PS1_PfS7_S7_iiiiif' for 'sm_75'
+ptxas info    : Function properties for _ZN4attn19paged_decode_kernelILi64ELi4EEEvPK6__halfS3_S3_PKiS5_PS1_PfS7_S7_iiiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 64 registers, used 1 barriers, 5168 bytes smem, 448 bytes cmem[0]
+ptxas info    : Compile time = 103.092 ms
+ptxas info    : Compiling entry function '_ZN4attn19paged_decode_kernelILi64ELi2EEEvPK6__halfS3_S3_PKiS5_PS1_PfS7_S7_iiiiif' for 'sm_75'
+ptxas info    : Function properties for _ZN4attn19paged_decode_kernelILi64ELi2EEEvPK6__halfS3_S3_PKiS5_PS1_PfS7_S7_iiiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 54 registers, used 1 barriers, 2584 bytes smem, 448 bytes cmem[0]
+ptxas info    : Compile time = 85.171 ms
+ptxas info    : Compiling entry function '_ZN4attn19paged_decode_kernelILi64ELi1EEEvPK6__halfS3_S3_PKiS5_PS1_PfS7_S7_iiiiif' for 'sm_75'
+ptxas info    : Function properties for _ZN4attn19paged_decode_kernelILi64ELi1EEEvPK6__halfS3_S3_PKiS5_PS1_PfS7_S7_iiiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 57 registers, used 1 barriers, 1292 bytes smem, 448 bytes cmem[0]
+ptxas info    : Compile time = 72.962 ms
+ptxas info    : Compiling entry function '_ZN4attn19paged_reduce_kernelEPKfS1_S1_PKiP6__halfiiii' for 'sm_75'
+ptxas info    : Function properties for _ZN4attn19paged_reduce_kernelEPKfS1_S1_PKiP6__halfiiii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 64 registers, used 0 barriers, 408 bytes cmem[0]
+ptxas info    : Compile time = 27.062 ms
+[6/6] c++ ext.o naive_attn.cuda.o flash_simt.cuda.o flash_wmma.cuda.o paged_decode.cuda.o -shared -L/usr/local/lib/python3.13/dist-packages/torch/lib -lc10 -lc10_cuda -ltorch_cpu -ltorch_cuda -ltorch -ltorch_python -L/usr/local/cuda/lib64 -lcudart -o attnkernels_ext.so
+build ok
